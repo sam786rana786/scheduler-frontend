@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import axios from '@/plugins/axios';
 import { useProfileStore } from '@/stores/profile'
+import {API_URL} from '@/config/env'
 
 interface TimezoneOption {
   value: string;
@@ -59,7 +60,7 @@ const handleAvatarChange = (event: Event) => {
 const updateProfile = async () => {
   try {
     const formData = new FormData()
-    
+
     // Create profile data object with all required fields
     const profileData = {
       scheduling_url: profile.value.scheduling_url || '',
@@ -79,7 +80,7 @@ const updateProfile = async () => {
     if (companyLogoFile.value) {
       formData.append('company_logo', companyLogoFile.value)
     }
-    
+
     if (avatarFile.value) {
       formData.append('avatar', avatarFile.value)
     }
@@ -91,13 +92,13 @@ const updateProfile = async () => {
 
     await profileStore.updateProfile(formData)
     successMessage.value = 'Profile updated successfully!'
-    
+
     // Clear file inputs
     const companyLogoInput = document.getElementById('company_logo') as HTMLInputElement
     const avatarInput = document.getElementById('avatar') as HTMLInputElement
     if (companyLogoInput) companyLogoInput.value = ''
     if (avatarInput) avatarInput.value = ''
-    
+
     // Clear preview
     if (avatarPreview.value) {
       URL.revokeObjectURL(avatarPreview.value)
@@ -122,7 +123,7 @@ onUnmounted(() => {
 })
 
 onMounted(async () => {
-  await Promise.all([    
+  await Promise.all([
     profileStore.fetchProfile(),
     fetchTimezones()
   ]);
@@ -138,7 +139,7 @@ onMounted(async () => {
       {{ profileStore.error }}
     </div>
 
-    <div v-if="successMessage" 
+    <div v-if="successMessage"
          class="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded relative">
       {{ successMessage }}
     </div>
@@ -152,7 +153,7 @@ onMounted(async () => {
             <div class="relative h-24 w-24 rounded-full overflow-hidden bg-gray-100">
               <img
                 v-if="avatarPreview || profile.avatar_url"
-                :src="avatarPreview || `http://127.0.0.1:8000${profile.avatar_url}`"
+                :src="avatarPreview || `${API_URL}${profile.avatar_url}`"
                 alt="Avatar Preview"
                 class="h-full w-full object-cover"
               />
@@ -230,7 +231,7 @@ onMounted(async () => {
         <div class="mt-1 flex items-center space-x-4">
           <img
             v-if="profile.company_logo"
-            :src="`http://127.0.0.1:8000${profile.company_logo}`"
+            :src="`${API_URL}${profile.company_logo}`"
             alt="Company Logo"
             class="h-12 w-12 object-contain"
           />

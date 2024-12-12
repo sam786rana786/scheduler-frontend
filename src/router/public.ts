@@ -17,12 +17,6 @@ export const publicRoutes = [
       component: () => import('@/views/public/BookingConfirmation.vue'),
       meta: { layout: 'public' }
     },
-    {
-        path: '/',
-        name: 'home',
-        component: () => import('@/views/Home.vue'),
-        meta: { requiresAuth: false }
-      },
       {
         path: '/features',
         name: 'features',

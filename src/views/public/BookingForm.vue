@@ -5,6 +5,7 @@ import { usePublicBookingStore } from '@/stores/publicBooking';
 import { useNotificationStore } from '@/stores/notification';
 import { Clock, Map, MapPin } from 'lucide-vue-next';
 import type { EventType, Question } from '@/types/eventType';
+import {API_URL} from '@/config/env';
 
 const route = useRoute();
 const router = useRouter();
@@ -163,13 +164,13 @@ const handleSubmit = async () => {
 const formatDateForBackend = (isoDate: string): string => {
   // Parse the ISO date string into a Date object
   const date = new Date(isoDate);
-  
+
   // Format as YYYY-MM-DD
   // padStart ensures numbers less than 10 have leading zeros
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
-  
+
   return `${year}-${month}-${day}`;
 };
 </script>
@@ -179,7 +180,7 @@ const formatDateForBackend = (isoDate: string): string => {
         <div class="max-w-4xl mx-auto flex flex-col lg:flex-row bg-white shadow rounded-lg overflow-hidden">
             <!-- Left Section: Event Details -->
             <div class="flex-shrink-0 w-full lg:w-1/2 p-6 bg-gray-100 border-r border-gray-200">
-                <img :src="`http://127.0.0.1:8000${companyLogo}`" alt="Company Logo" class="mb-4">
+                <img :src="`${API_URL}${companyLogo}`" alt="Company Logo" class="mb-4">
                 <hr />
                 <h2 class="text-lg font-bold text-gray-800 mb-2">{{ eventType?.name }}</h2>
                 <p class="text-sm text-gray-600 mt-2">
@@ -222,7 +223,7 @@ const formatDateForBackend = (isoDate: string): string => {
                 <button @click="router.push('/')" class="mt-4 text-blue-600 hover:text-blue-500">
                     Return to Homepage
                 </button>
-            </div>           
+            </div>
 
             <!-- Booking Form -->
             <div v-else-if="eventType" class="w-full lg:w-2/3 p-6">

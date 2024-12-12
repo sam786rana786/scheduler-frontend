@@ -7,7 +7,13 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     ...publicRoutes,
-    ...authRoutes,   
+    ...authRoutes,
+    {
+      path: '/',
+      name: 'home',
+      component: () => import('@/views/Home.vue'),
+      meta: { requiresAuth: false }
+    },
     {
       path: '/dashboard',
       name: 'dashboard',
@@ -61,18 +67,18 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  
+
   // Check if route requires auth
   if (to.meta.requiresAuth) {
     try {
       // Verify token validity
       const isValid = await authStore.checkAuth();
-      
+
       if (!isValid) {
         // Redirect to login with message if token is invalid
         next({
           path: '/login',
-          query: { 
+          query: {
             returnUrl: to.fullPath,
             message: 'Logged out due to inactivity'
           }
@@ -83,7 +89,7 @@ router.beforeEach(async (to, from, next) => {
       // Handle any errors during auth check
       next({
         path: '/login',
-        query: { 
+        query: {
           returnUrl: to.fullPath,
           message: 'Authentication error occurred'
         }
@@ -91,13 +97,13 @@ router.beforeEach(async (to, from, next) => {
       return;
     }
   }
-  
+
   // If the user is authenticated and tries to access login/signup pages
   if (authStore.isAuthenticated && (to.path === '/login' || to.path === '/signup')) {
     next('/dashboard');
     return;
   }
-  
+
   next();
 });
 

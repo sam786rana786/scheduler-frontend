@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { usePublicBookingStore } from '@/stores/publicBooking';
 import { Map, ChevronLeft, ChevronRight, Clock, Video, Phone, MapPin } from 'lucide-vue-next';
 import type { EventType } from '@/types/eventType';
+import {API_URL} from '@/config/env';
 
 interface TimeSlot {
   time: string;
@@ -228,7 +229,7 @@ const handleNextMonth = async () => {
         <div class="flex items-center mb-4">
           <img
             v-if="companyLogo"
-            :src="`http://127.0.0.1:8000${companyLogo}`"
+            :src="`${API_URL}${companyLogo}`"
             alt="Company Logo"
           />
         </div>

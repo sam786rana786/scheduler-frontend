@@ -4,6 +4,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import type { Menu } from 'lucide-vue-next'; // You might need to install lucide-vue-next
 import { useProfileStore } from '@/stores/profile';
+import { API_URL } from '@/config/env';
 
 interface UserDropdownItem {
   label: string;
@@ -107,7 +108,7 @@ onUnmounted(() => {
                 id="user-menu-button">
                 <span class="sr-only">Open user menu</span>
                 <img v-if="profileStore.profile?.company_logo" class="h-8 w-8 rounded-full"
-                  :src="`http://127.0.0.1:8000${profileStore.profile.avatar_url}`"
+                  :src="`${API_URL}${profileStore.profile.avatar_url}`"
                   alt="">
                 <img v-else class="h-8 w-8 rounded-full"
                   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"

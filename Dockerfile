@@ -18,6 +18,8 @@ COPY . .
 # build app for production with minification
 RUN npm run build
 
+RUN ls -la dist
+
 EXPOSE 3000
 
 CMD [ "http-server", "dist", "-p", "3000", "-s" ]

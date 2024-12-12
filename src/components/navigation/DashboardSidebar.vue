@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useProfileStore } from '@/stores/profile';
+import { API_URL } from '@/config/env';
 
 interface NavItem {
   name: string;
@@ -42,7 +43,7 @@ const isCurrentRoute = computed(() => (path: string) => route.path === path);
   <div class="hidden md:flex md:w-64 md:flex-col">
     <div class="flex flex-col flex-grow border-r border-gray-200 pt-5 bg-white overflow-y-auto">
       <div class="flex items-center flex-shrink-0 px-4">
-        <img v-if="profileStore.profile?.company_logo" class="h-8 w-auto" :src="`http://127.0.0.1:8000${profileStore.profile.company_logo}`" alt="Schedule">
+        <img v-if="profileStore.profile?.company_logo" class="h-8 w-auto" :src="`${API_URL}${profileStore.profile.company_logo}`" alt="Schedule">
         <img v-else class="h-8 w-auto" src="@/assets/logo.png" alt="Schedule">
       </div>
       <div class="mt-5 flex-grow flex flex-col">
